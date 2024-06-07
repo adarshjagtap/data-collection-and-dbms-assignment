@@ -1,0 +1,242 @@
+1. Display first name and last name after converting the first letter of each name to
+upper case and the rest to lower case.
+
+SELECT CONCAT(UPPER(LEFT(FIRST_NAME,1)), LOWER(SUBSTR(FIRST_NAME,2))," ", UPPER(LEFT(LAST_NAME,1)), SUBSTR(LAST_NAME, 2)) AS name FROM employees;
+
+
+
+2. Display the first word in job title.
+
+SELECT SUBSTRING_INDEX(JOB_TITLE, ' ', 1) AS first_word FROM jobs;
+SELECT LEFT(JOB_ID,2) FROM employees;
+
+
+3. Display the length of first name for employees where last name contain character ‘b’
+after 3rd position.
+
+SELECT COUNT(FIRST_NAME) FROM employees WHERE LAST_NAME LIKE "__b%";
++-------------------+
+| COUNT(FIRST_NAME) |
++-------------------+
+|                 2 |
++-------------------+
+
+
+4. Display first name in upper case and email address in lower case for employees
+where the first name and email address are same irrespective of the case.
+
+
+
+5. Display first name, salary, and round the salary to thousands.
+
+SELECT FIRST_NAME, SALARY , ROUND(SALARY,-3)FROM employees;
+
+
+6. Display employee ID and the date on which he ended his previous job.
+
+SELECT EMPLOYEE_ID, HIRE_DATE, DATE_SUB(HIRE_DATE, INTERVAL 1 DAY) AS `last day` FROM employees;
+
+
+7. Display first name and date of first salary of the employees.
+(Consider 1st day of month as salary day) HINT: LAST_DAY.
+
+SELECT FIRST_NAME,HIRE_DATE, DATE_FORMAT(DATE_ADD(HIRE_DATE, INTERVAL 1 M
+ONTH), '%Y-%M-01') AS salary_month FROM employees;
+
+
+
+
+8. Display first name and experience of the employees.
+
+SELECT FIRST_NAME, TIMESTAMPDIFF(YEAR,HIRE_DATE, NOW()) AS exp FROM employees;
+
+
+Que9) select FIRST_NAME FROM employees WHERE HIRE_DATE=2001 ;
+Empty set, 1 warning (0.00 sec)
+
+
+Que10)SELECT FIRST_NAME FROM employees WHERE HIRE_DATE=DATE(NOW());
+Empty set (0.01 sec)
+
+
+11. Display the number of days between system date and 1st January 2011.
+
+SELECT DATEDIFF(NOW(), "2011-01-01") AS days;
++------+
+| days |
++------+
+| 4904 |
++------+
+
+
+
+
+12. Display number of employees joined after 15th of the month.
+SELECT COUNT(HIRE_DATE) AS count FROM employees WHERE DAY(HIRE_DATE) > 15;
++-------+
+| count |
++-------+
+|    61 |
++-------+
+
+
+13. Display third highest salary of employees.
+mysql> SELECT DISTINCT SALARY FROM employees order by SALARY desc LIMIT 2,1;
++----------+
+| SALARY   |
++----------+
+| 14000.00 |
++----------+
+
+
+
+
+
+
+
+Note : To solve below queries use “spj” database
+1. Display all the Suppliers, belonging to cities starting with the letter ‘L’.
+SELECT Sname FROM S WHERE city LIKE "L%";
++-------+
+| Sname |
++-------+
+| Smith |
+| Clark |
++-------+
+
+
+2. Display all the Jobs, with the third letter in JNAME as ‘n’.
+
+SELECT Jname FROM J WHERE Jname LIKE "__n%";
++--------+
+| Jname  |
++--------+
+| Punch  |
+| Consol |
++--------+
+
+
+3. Display all the Supplier names with the initial letter capital.
+
+SELECT Sname FROM S;
++-------+
+| Sname |
++-------+
+| Smith |
+| Jones |
+| Blake |
+| Clark |
+| Adams |
++-------+
+
+
+4. Display all the Supplier names in upper case.
+
+SELECT UPPER(Sname) FROM S;
++--------------+
+| UPPER(Sname) |
++--------------+
+| SMITH        |
+| JONES        |
+| BLAKE        |
+| CLARK        |
+| ADAMS        |
++--------------+
+
+
+
+5. Display all the Supplier names in lower case.
+
+SELECT LOWER(Sname) FROM S;
++--------------+
+| LOWER(Sname) |
++--------------+
+| smith        |
+| jones        |
+| blake        |
+| clark        |
+| adams        |
++--------------+
+
+
+
+6. Display the Supplier names and the lengths of the names.
+
+SELECT Sname, LENGTH(Sname) FROM S;
++-------+---------------+
+| Sname | LENGTH(Sname) |
++-------+---------------+
+| Smith |             5 |
+| Jones |             5 |
+| Blake |             5 |
+| Clark |             5 |
+| Adams |             5 |
++-------+---------------+
+
+
+7. Display the current day (e.g. Thursday).
+
+SELECT DAYNAME(NOW());
++----------------+
+| DAYNAME(NOW()) |
++----------------+
+| Wednesday      |
++----------------+
+
+
+8. Display the minimum Status in the Supplier table.
+SELECT MIN(status) FROM S;
++-------------+
+| MIN(status) |
++-------------+
+|          10 |
++-------------+
+
+
+
+9. Display the maximum Weight in the Parts table.
+
+SELECT MAX(weight) FROM P;
++-------------+
+| MAX(weight) |
++-------------+
+|          19 |
++-------------+
+
+
+10. Display the average Weight of the Parts.
+
+SELECT AVG(weight) FROM P;
++-------------+
+| AVG(weight) |
++-------------+
+|     15.1667 |
++-------------+
+
+
+
+11. Display the total Quantity sold for part ‘P1’.
+
+SELECT weight FROM P WHERE `P#` = "P1";
++--------+
+| weight |
++--------+
+|     12 |
++--------+
+
+
+
+12. Display all the Supplier names (with ‘la’ replaced by ‘ro’).
+HINT: REPLACE.
+
+SELECT Sname, REPLACE(Sname,"la", "ro") AS modified FROM S;
++-------+----------+
+| Sname | modified |
++-------+----------+
+| Smith | Smith    |
+| Jones | Jones    |
+| Blake | Broke    |
+| Clark | Crork    |
+| Adams | Adams    |
++-------+----------+
+

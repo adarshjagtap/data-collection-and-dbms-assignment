@@ -1,0 +1,150 @@
+1. Write a query to get unique department ID from employee
+table.
+
+SELECT DISTINCT DEPARTMENT_ID FROM employees;
++---------------+
+| DEPARTMENT_ID |
++---------------+
+|             0 |
+|            10 |
+|            20 |
+|            30 |
+|            40 |
+|            50 |
+|            60 |
+|            70 |
+|            80 |
+|            90 |
+|           100 |
+|           110 |
++---------------+
+
+
+2. Write a query to get all employee details from the employee
+table order by first name, descending.
+
+SELECT * FROM employees ORDER BY FIRST_NAME DESC;
+
+
+3. Write a query to get the employee ID, names (first_name,
+last_name), salary in ascending order of salary.
+
+SELECT EMPLOYEE_ID, FIRST_NAME, LAST_NAME, SALARY FROM employees
+
+
+4. Display first name and join date of the employees who is
+either IT Programmer or Sales Man
+
+SELECT FIRST_NAME, HIRE_DATE FROM employees WHERE JOB_ID
+IN("IT_PROG" , "SA_MAN");
++------------+------------+
+| FIRST_NAME | HIRE_DATE  |
++------------+------------+
+| Alexander  | 1987-06-20 |
+| Bruce      | 1987-06-21 |
+| David      | 1987-06-22 |
+| Valli      | 1987-06-23 |
+| Diana      | 1987-06-24 |
+| John       | 1987-08-01 |
+| Karen      | 1987-08-02 |
+| Alberto    | 1987-08-03 |
+| Gerald     | 1987-08-04 |
+| Eleni      | 1987-08-05 |
++------------+------------+
+
+
+
+5. Display details of employee with ID 150 or 160.
+
+SELECT * FROM employees WHERE EMPLOYEE_ID IN(150,160);
+
+
+
+6. Display first name, salary, commission pct, and hire date for
+employees with salary less than 10000.
+
+SELECT FIRST_NAME, SALARY, COMMISSION_PCT,HIRE_DATE from
+employees WHERE SALARY < 10000;
+
+
+
+7. Display employees where the first name or last name starts
+with S.
+
+SELECT * FROM employees WHERE FIRST_NAME LIKE "S%" OR LAST_NAME LIKE "S%";
+
+
+8. Display details of jobs in the descending order of the title.
+
+SELECT JOB_ID FROM employees ORDER BY DESC;
+
+9. Display details of the employees where commission percentage
+is null and salary in the range 5000 to 10000 and department is
+30.
+
+SELECT * FROM employees WHERE COMMISSION_PCT IS NULL AND
+DEPARTMENT_ID=30 AND SALARY BETWEEN 5000 AND 10000;
+
+10. Display employees first_name,email who are working in
+“Executive” department.
+
+SELECT FIRST_NAME, EMAIL FROM employees WHERE DEPARTMENT_ID=90;
++------------+----------+
+| FIRST_NAME | EMAIL    |
++------------+----------+
+| Steven     | SKING    |
+| Neena      | NKOCHHAR |
+| Lex        | LDEHAAN  |
++------------+----------+
+
+
+11. Display unique contry_id from locations table.
+SELECT DISTINCT COUNTRY_ID FROM locations;
++------------+
+| COUNTRY_ID |
++------------+
+| "          |
+| AU         |
+| BR         |
+| CA         |
+| CH         |
+| CN         |
+| DE         |
+| IN         |
+| IT         |
+| JP         |
+| NL         |
+| Ox         |
+| SG         |
+| UK         |
+| US         |
++------------+
+
+
+12. Display all employees whose have job_id IT_PROG and
+FI_ACCOUNT.
+ELECT FIRST_NAME FROM employees WHERE JOB_ID IN("IT_PROG", "FI_ACCOUNT");
++-------------+
+| FIRST_NAME  |
++-------------+
+| Daniel      |
+| John        |
+| Ismael      |
+| Jose Manuel |
+| Luis        |
+| Alexander   |
+| Bruce       |
+| David       |
+| Valli       |
+| Diana       |
++-------------+
+
+
+13. Display all countries in ascending order.
+
+SELECT COUNTRY_NAME FROM countries ORDER BY COUNTRY_NAME;
+
+
+
+
+EMPLOYEE_ID | FIRST_NAME   LAST_NAME   | EMAIL    | PHONE_NUMBER       | HIRE_DATE  | JOB_ID     | SALARY   | COMMISSION_PCT | MANAGER_ID | DEPARTMENT_ID |

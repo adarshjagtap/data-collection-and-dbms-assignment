@@ -1,0 +1,326 @@
+Que1) select o.onum ,c.cname from orders as o
+    -> cross join customers as c on o.cnum=c.cnum;
++------+----------+
+| onum | cname    |
++------+----------+
+| 3001 | Cisneros |
+| 3003 | Hoffman  |
+| 3002 | Pereira  |
+| 3005 | Liu      |
+| 3006 | Cisneros |
+| 3009 | Giovanni |
+| 3007 | Grass    |
+| 3008 | Clemens  |
+| 3010 | Grass    |
+| 3011 | Clemens  |
++------+----------+
+10 rows in set (0.00 sec)
+
+
+Que2) SELECT s.sname,c.cname,o.onum from orders as o
+    -> inner join salespeople as s on o.snum=s.snum
+    -> right join customers as c on o.cnum=c.cnum;
++---------+----------+------+
+| sname   | cname    | onum |
++---------+----------+------+
+| Peel    | Hoffman  | 3003 |
+| Axelrod | Giovanni | 3009 |
+| Serres  | Liu      | 3005 |
+| Serres  | Grass    | 3010 |
+| Serres  | Grass    | 3007 |
+| Peel    | Clemens  | 3011 |
+| Peel    | Clemens  | 3008 |
+| Rifkin  | Cisneros | 3006 |
+| Rifkin  | Cisneros | 3001 |
+| Motika  | Pereira  | 3002 |
++---------+----------+------+
+10 rows in set (0.00 sec)
+
+
+Que3)  SELECT c.cname,s.sname,s.comm from customers as c
+    -> RIGHT JOIN salespeople as s on c.snum=s.snum
+    -> WHERE s.comm>0.12;
++----------+--------+------+
+| cname    | sname  | comm |
++----------+--------+------+
+| Grass    | Serres | 0.13 |
+| Liu      | Serres | 0.13 |
+| Cisneros | Rifkin | 0.15 |
++----------+--------+------+
+3 rows in set (0.00 sec)
+
+Que4) select o.onum,s.comm,c.rating,o.amt*s.comm from orders as o right join salespeople as s on o.snum=s.snum inner join customers as c on o.cnum=c.cnum WHERE c.rating>100;
++------+------+--------+--------------+
+| onum | comm | rating | o.amt*s.comm |
++------+------+--------+--------------+
+| 3010 | 0.13 |    300 |      40.2935 |
+| 3007 | 0.13 |    300 |       9.8475 |
+| 3005 | 0.13 |    200 |     670.8585 |
+| 3006 | 0.15 |    300 |     164.7240 |
+| 3001 | 0.15 |    300 |       2.8035 |
+| 3009 | 0.10 |    200 |     171.3230 |
++------+------+--------+--------------+
+6 rows in set (0.00 sec)
+
+Que5)select s.sname,s.city,s.snum,s1.snum,s1.sname from salespeople s inner join salespeople s1 on s.city = s1.city where s.snum!=s1.snum limit 1;
++--------+--------+------+------+-------+
+| sname  | city   | snum | snum | sname |
++--------+--------+------+------+-------+
+| Motika | London | 1004 | 1001 | Peel  |
++--------+--------+------+------+-------+
+1 row in set (0.00 sec)
+
+------------------------------------------------------------------------------------------------------
+Que1)select s.Sname,sum(s1.QTY) from S as s inner join sp as s1 on s.`S#`=s1.`S#`group by s.Sname;
++-------+-------------+
+| Sname | sum(s1.QTY) |
++-------+-------------+
+| Sname |         900 |
+| Jones |        3200 |
+| Blake |         700 |
+| Clark |         600 |
+| Adams |        3100 |
++-------+-------------+
+5 rows in set (0.10 sec)
+
+Que2) select s.Pname,sum(s1.QTY) from P_ as s inner join sp as s1 on s.`P#`=s1.`P#`group by s.Pname;
++-------+-------------+
+| Pname | sum(s1.QTY) |
++-------+-------------+
+| NUT   |        1000 |
+| Screw |        4800 |
+| Cam   |        1100 |
+| Cog   |        1300 |
+| BOLT  |         300 |
++-------+-------------+
+5 rows in set (0.00 sec)
+
+Que3)select s.Jname,sum(s1.QTY) as Quantity_sold from J as s inner join sp as s1 on s.`J#`=s1.`J#`group by s.Jname;
++----------+---------------+
+| Jname    | Quantity_sold |
++----------+---------------+
+| Sorter   |           800 |
+| Console  |          3300 |
+| Punch    |          1200 |
+| Reader   |           500 |
+| Collator |          1100 |
+| Terminal |           400 |
+| Tape     |          1200 |
++----------+---------------+
+7 rows in set (0.00 sec)
+
+Que4) select s.Sname,j.Jname,p.Pname,q.QTY from sp as q inner join S as s on s.`S#`=q.`S#` inner join P_ as p on p.`P#`=q.`P#` inner join J as j on j.`J#`=q.`J#`group by s.Sname,j.Jname,p.Pname,q.QTY;
++-------+----------+-------+------+
+| Sname | Jname    | Pname | QTY  |
++-------+----------+-------+------+
+| Jones | Sorter   | Screw |  400 |
+| Blake | Sorter   | Screw |  200 |
+| Sname | Sorter   | NUT   |  200 |
+| Adams | Punch    | Cog   |  200 |
+| Jones | Punch    | Cam   |  100 |
+| Blake | Punch    | Screw |  500 |
+| Jones | Punch    | Screw |  200 |
+| Adams | Punch    | BOLT  |  200 |
+| Clark | Reader   | Cog   |  300 |
+| Jones | Reader   | Screw |  200 |
+| Adams | Console  | Cog   |  500 |
+| Adams | Console  | Cam   |  400 |
+| Adams | Console  | Screw |  800 |
+| Jones | Console  | Screw |  500 |
+| Adams | Console  | Screw |  200 |
+| Adams | Console  | BOLT  |  100 |
+| Sname | Console  | NUT   |  700 |
+| Adams | Console  | NUT   |  100 |
+| Adams | Collator | Cam   |  500 |
+| Jones | Collator | Screw |  600 |
+| Jones | Terminal | Screw |  400 |
+| Clark | Tape     | Cog   |  300 |
+| Adams | Tape     | Cam   |  100 |
+| Jones | Tape     | Screw |  800 |
++-------+----------+-------+------+
+24 rows in set (0.06 sec)
+
+
+Que5) 
+select s.Sname,p.Pname,s.city from S as s  inner join P_ as p on s.city=p.city 
+    -> Where s.city=p.city;
++-------+-------+--------+
+| Sname | Pname | city   |
++-------+-------+--------+
+| Clark | NUT   | London |
+| Sname | NUT   | London |
+| Blake | BOLT  | Paris  |
+| Jones | BOLT  | Paris  |
+| Clark | Screw | London |
+| Sname | Screw | London |
+| Blake | Cam   | Paris  |
+| Jones | Cam   | Paris  |
+| Clark | Cog   | London |
+| Sname | Cog   | London |
++-------+-------+--------+
+10 rows in set (0.00 sec)
+
+
+
+
+Que6) select p.Pname,sum(q.QTY) from P_ as p inner join sp as q on p.`P#`=q.`P#` Where p.color="Red"group by p.Pname;
++-------+------------+
+| Pname | sum(q.QTY) |
++-------+------------+
+| NUT   |       1000 |
+| Screw |       1300 |
+| Cog   |       1300 |
++-------+------------+
+3 rows in set (0.00 sec)
+
+Que7)select sum(q.QTY),s.Sname from sp as q  inner join S as s on s.`S#`=q.`S#` where s.status=20
+    -> group by s.Sname;
++------------+-------+
+| sum(q.QTY) | Sname |
++------------+-------+
+|        900 | Sname |
+|        600 | Clark |
++------------+-------+
+2 rows in set (0.00 sec)
+
+Que8)select p.`P#`,sum(q.QTY) from P_ as p inner join sp as q on p.`P#`=q.`P#` where p.weight>14
+    -> group by p.`P#`;
++----+------------+
+| P# | sum(q.QTY) |
++----+------------+
+| P3 |       3500 |
+| P6 |       1300 |
+| P2 |        300 |
++----+------------+
+3 rows in set (0.00 sec)
+
+Que9)select j.Jname,j.City,sum(q.QTY) from J as j  inner join sp as q on q.`J#`=j.`J#` group by j.Jname,j.City having sum(q.Qty)>500 ;
++----------+--------+------------+
+| Jname    | City   | sum(q.QTY) |
++----------+--------+------------+
+| Sorter   | Paris  |        800 |
+| Console  | Athens |       3300 |select s.Sname,s.status,s1.Sname,s1.status from S as s  inner join S as s1 on s.status=s1.status where s.status=20 and s.Sname!=s1.Sname limit 1,1;
+| Punch    | Rome   |       1200 |
+| Collator | London |       1100 |
+| Tape     | London |       1200 |
++----------+--------+------------+
+5 rows in set (0.00 sec)
+
+Que10)select j.Pname,j.weight,sum(q.QTY) from P_ as j  inner join sp as q on q.`P#`=j.`P#` group by j.Pname,j.weight having j.weight<15 ;
++-------+--------+------------+
+| Pname | weight | sum(q.QTY) |
++-------+--------+------------+
+| NUT   |     12 |       1000 |
+| Cam   |     12 |       1100 |
+| Screw |     14 |       1300 |
++-------+--------+------------+
+3 rows in set (0.01 sec)
+
+Que11)Display all the Suppliers with the same Status as the supplier, ‘CLARK’.
+
+select s.Sname,s.status,s1.Sname,s1.status from S as s  inner join S as s1 on s.status=s1.status where s.status=20 and s.Sname!=s1.Sname limit 1,1;
++-------+--------+-------+--------+
+| Sname | status | Sname | status |
++-------+--------+-------+--------+
+| Sname |     20 | Clark |     20 |
++-------+--------+-------+--------+
+1 row in set (0.00 sec)
+
+
+QUE12) Display all the Parts which have more Weight than any Red parts.
+
+ select p1.Pname from P_ as p1 inner join P_ as p2 on p1.weight>p2.weight
+where p2.color="Red" group by p1.Pname;
++-------+
+| Pname |
++-------+
+| BOLT  |
+| Screw |
+| Cog   |
++-------+
+3 rows in set (0.38 sec)
+
+
+
+QUE13)Display all the Jobs going on in the same city as the job ‘TAPE’.
+
+select Jname from J where city=(select city from J where Jname='Tape') LIMIT 1;
++----------+
+| Jname    |
++----------+
+| Collator |
++----------+
+1 row in set (0.00 sec)
+
+
+
+QUE14)Display all the Parts with Weight less than any the Green parts
+select p1.Pname from P_ as p1
+    -> inner join P_ as p2 on p1.weight<p2.weight where p2.color="GREEN";
++-------+
+| Pname |
++-------+
+| NUT   |
+| Screw |
+| Cam   |
++-------+
+3 rows in set (0.01 sec)
+
+
+
+
+
+QUE15)Display the name of the Supplier who has sold the maximum Quantity (in onesale).
+
+select s.Sname ,q.QTY from S as s inner join sp as q on s.`S#`=q.`S#` Order by q.QTY DESC limit 2 ;
++-------+------+
+| Sname | QTY  |
++-------+------+
+| Adams |  800 |
+| Jones |  800 |
++-------+------+
+2 rows in set (0.01 sec)
+
+
+QUE16)Display the name of the Supplier who has sold the maximum overall Quantity
+
+select s.Sname ,SUM(q.QTY) from S as s inner join sp as q on s.`S#`=q.`S#` group by s.Sname Order by SUM(q.QTY) DESC limit 1;
++-------+------------+
+| Sname | SUM(q.QTY) |
+
++-------+------------+
+| Jones |       3200 |
++-------+------------+
+1 row in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
